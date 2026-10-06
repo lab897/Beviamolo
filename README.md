@@ -28,8 +28,9 @@ tar -xzf beviamolo-linux-x64.tar.gz
 ./beviamolo-linux/bundle/beviamolo
 ```
 
-The archive needs GTK 3 and libsecret, which most desktop distributions already include
-(Debian/Ubuntu: `libgtk-3-0 libsecret-1-0`).
+The archive needs glibc 2.38 or newer (for example Ubuntu 24.04, Debian 13, Fedora 39 or
+later), GTK 3 and libsecret, which desktop distributions usually include. On older systems use
+the Snap package.
 
 ## Account and AI credits
 
