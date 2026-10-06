@@ -1,0 +1,20 @@
+Beviamolo
+Copyright (c) 2026 lab897. All rights reserved.
+
+Beviamolo is proprietary software. It is free to download and use, subject to
+the Terms of Service shown in the application (Settings -> Info, Terms &
+Contacts).
+
+Permission is granted to Flathub (https://flathub.org) and to the users of its
+repositories to download, install and redistribute this software through
+Flatpak repositories, in unmodified form only.
+
+Modifying, decompiling or distributing modified copies of this software is not
+permitted without prior written permission from lab897.
+
+The software includes third-party open source components (the Flutter engine
+and Dart packages). Their licenses are bundled with the application in
+bundle/data/flutter_assets/NOTICES.Z (compressed text).
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED.
