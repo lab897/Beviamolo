@@ -1,0 +1,387 @@
+<!doctype html>
+<!-- Pagina di https://flatpak.beviamolo.it: la pubblica pubblica-repo.sh, che sostituisce
+     @VERSIONE@ e @URL_SITO@. Stile e token di sito_web (BaseLayout, SiteHeader,
+     registrati.astro), font copiati da sito_web/static/fonts. Inglese nell'HTML (vale anche
+     senza JavaScript), le altre lingue le applica lo script: ?lang=xx, poi il browser. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beviamolo for Linux — Flatpak</title>
+<meta name="description" content="Install Beviamolo, the wine cellar app, from its official Flatpak repository.">
+<meta name="theme-color" content="#9F0F36">
+<link rel="icon" href="beviamolo.png">
+<link rel="preload" href="fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face {
+    font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 400 800; font-display: swap;
+    src: url(fonts/bricolage-latin-ext.woff2) format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 400 800; font-display: swap;
+    src: url(fonts/bricolage-latin.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Geist'; font-style: normal; font-weight: 300 700; font-display: swap;
+    src: url(fonts/geist-latin-ext.woff2) format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Geist'; font-style: normal; font-weight: 300 700; font-display: swap;
+    src: url(fonts/geist-latin.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Geist Mono'; font-style: normal; font-weight: 400 600; font-display: swap;
+    src: url(fonts/geist-mono-latin.woff2) format('woff2');
+  }
+
+  /* Token del sito (sito_web/src/layouts/BaseLayout.astro) */
+  :root {
+    --cream: #F5F2EC;
+    --paper: #FFFFFF;
+    --ink: #0A0907;
+    --inkSoft: #332B22;
+    --inkMute: #857B6D;
+    --bordeaux: #E11D48;
+    --bordeauxDeep: #9F0F36;
+    --brandText: #F5F2EC;
+    --divider: rgba(10, 9, 7, 0.07);
+    --dividerStrong: rgba(10, 9, 7, 0.14);
+    --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+    --font-body: 'Geist', system-ui, sans-serif;
+    --font-mono: 'Geist Mono', ui-monospace, monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  html, body { overflow-x: clip; }
+  body {
+    font-family: var(--font-body); background: var(--cream); color: var(--ink);
+    line-height: 1.6; font-size: 16px;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  ol, ul { list-style: none; }
+
+  /* ===== Testata (SiteHeader, variante barra) ===== */
+  .testata { background: linear-gradient(100deg, var(--bordeauxDeep) 0%, var(--bordeaux) 100%); }
+  .testata .inner {
+    max-width: 1140px; margin-inline: auto; min-height: 64px;
+    padding: 10px 20px; display: flex; align-items: center; gap: 10px 16px; flex-wrap: wrap;
+  }
+  @media (min-width: 640px) { .testata .inner { padding-inline: 32px; } }
+  @media (min-width: 1024px) { .testata .inner { padding-inline: 48px; } }
+  .logo img { height: 39px; width: auto; }
+  @media (max-width: 640px) { .logo img { height: 32px; } }
+  .destra { margin-left: auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .lingue {
+    display: flex; gap: 2px; padding: 3px 6px; border-radius: 999px;
+    background: rgba(245, 242, 236, .10); border: 1px solid rgba(245, 242, 236, .18);
+  }
+  .lingua {
+    font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: .5px;
+    color: rgba(245, 242, 236, .65); padding: 3px 6px; border-radius: 999px;
+  }
+  .lingua:hover { color: var(--brandText); }
+  .lingua.attiva { background: rgba(245, 242, 236, .22); color: var(--brandText); }
+
+  /* ===== Contenuto ===== */
+  .wrap { width: min(100% - 32px, 760px); margin-inline: auto; }
+  main { display: grid; gap: 36px; padding-block: 44px 72px; }
+  h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; color: var(--ink); }
+  h1 { font-size: clamp(30px, 7.2vw, 42px); font-weight: 700; line-height: 1.05; letter-spacing: -1.1px; }
+  h2 { font-size: 22px; font-weight: 600; line-height: 1.2; letter-spacing: -0.4px; }
+  h3 { font-size: 16px; font-weight: 600; line-height: 1.25; }
+  section { display: grid; gap: 14px; }
+  /* Nelle griglie i figli non si stringono sotto il contenuto: senza, i comandi lunghi
+     allargano la pagina sul telefono invece di scorrere nella loro riga. */
+  main > *, section > *, .comandi > *, .comando > * { min-width: 0; }
+  .head { display: grid; gap: 14px; }
+  .etichetta {
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--inkMute);
+  }
+  .lede { color: var(--inkSoft); font-size: 17px; max-width: 60ch; }
+  .testo { color: var(--inkSoft); max-width: 62ch; }
+  .testo a, .footer a { color: var(--bordeauxDeep); text-decoration: underline; text-underline-offset: 3px; }
+
+  .scheda {
+    background: var(--paper); border: 1px solid var(--divider); border-radius: 16px;
+    padding: 20px 22px; display: grid; gap: 12px;
+  }
+  .installa { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 48px; padding: 0 24px; border-radius: 999px; border: 0;
+    background: var(--ink); color: var(--cream);
+    font: inherit; font-weight: 600; font-size: 15px; cursor: pointer; transition: opacity .12s;
+  }
+  .btn:hover { opacity: .85; }
+  .btn:focus-visible, .copia:focus-visible, .store-link:focus-visible, .lingua:focus-visible {
+    outline: 2px solid var(--bordeaux); outline-offset: 3px;
+  }
+  .nota { color: var(--inkMute); font-size: 14.5px; }
+
+  /* ===== Comandi ===== */
+  .comandi { display: grid; gap: 12px; }
+  .comando { display: grid; gap: 8px; }
+  .riga {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--cream); border: 1px solid var(--divider); border-radius: 12px;
+    padding: 8px 8px 8px 14px;
+  }
+  .riga code {
+    flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap;
+    font-family: var(--font-mono); font-size: 13.5px; color: var(--ink); padding-block: 4px;
+  }
+  .copia {
+    flex: none; border: 1px solid var(--dividerStrong); background: var(--paper); color: var(--ink);
+    border-radius: 999px; padding: 6px 14px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .copia:hover { border-color: var(--ink); }
+
+  /* ===== Altri dispositivi (come registrati.astro) ===== */
+  .store { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .store-link {
+    display: grid; gap: 2px; padding: 12px 16px; background: var(--paper);
+    border: 1px solid var(--divider); border-radius: 12px; color: var(--ink);
+  }
+  .store-link:hover { border-color: var(--ink); }
+  .store-nome { font-weight: 600; }
+  .store-piattaforma { font-family: var(--font-mono); font-size: 12.5px; color: var(--inkMute); }
+
+  /* ===== Footer (ContenutoShell) ===== */
+  .footer { border-top: 1px solid var(--divider); padding-block: 40px; }
+  .footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .footer img { height: 22px; width: auto; }
+  .footer .meta { font-size: 13px; color: var(--inkMute); }
+</style>
+</head>
+<body>
+
+<header class="testata">
+  <div class="inner">
+    <a class="logo" href="https://www.beviamolo.it/en/" data-home aria-label="Beviamolo">
+      <img src="logo-dark.svg" alt="Beviamolo" width="88" height="39">
+    </a>
+    <div class="destra">
+      <nav class="lingue" aria-label="Language">
+        <a class="lingua attiva" href="?lang=en" hreflang="en" aria-current="page">EN</a>
+        <a class="lingua" href="?lang=it" hreflang="it">IT</a>
+        <a class="lingua" href="?lang=fr" hreflang="fr">FR</a>
+        <a class="lingua" href="?lang=de" hreflang="de">DE</a>
+        <a class="lingua" href="?lang=es" hreflang="es">ES</a>
+        <a class="lingua" href="?lang=pt" hreflang="pt">PT</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <header class="head">
+    <p class="etichetta"><span data-t="etichetta">Official Flatpak repository</span> · <span data-t="versione">version</span> @VERSIONE@</p>
+    <h1 data-t="titolo">Beviamolo for Linux</h1>
+    <p class="lede" data-t="lede">The app for your wine cellar: photograph the label and let the AI recognise the wine, keep every bottle in its place and find the right wine for your dish.</p>
+  </header>
+
+  <section class="scheda" aria-labelledby="installa-h">
+    <h2 id="installa-h" data-t="installaH">Install with one click</h2>
+    <div class="installa">
+      <a class="btn" href="beviamolo.flatpakref" data-t="installaBtn">Install Beviamolo</a>
+      <p class="nota" data-t="installaNota">It opens in GNOME Software or KDE Discover. Updates then arrive like for your other apps.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="terminale-h">
+    <h2 id="terminale-h" data-t="terminaleH">From the terminal</h2>
+    <div class="scheda comandi">
+      <div class="comando">
+        <h3 data-t="cmdInstalla">Install</h3>
+        <div class="riga"><code>flatpak install --user @URL_SITO@/beviamolo.flatpakref</code><button type="button" class="copia" data-t="copia">Copy</button></div>
+      </div>
+      <div class="comando">
+        <h3 data-t="cmdAvvia">Open</h3>
+        <div class="riga"><code>flatpak run dev.lab897.beviamolo</code><button type="button" class="copia" data-t="copia">Copy</button></div>
+      </div>
+      <div class="comando">
+        <h3 data-t="cmdAggiorna">Update</h3>
+        <div class="riga"><code>flatpak update</code><button type="button" class="copia" data-t="copia">Copy</button></div>
+      </div>
+    </div>
+    <p class="testo" data-t="runtime">The app uses the GNOME runtime, which Flatpak downloads from Flathub during the first installation.</p>
+    <p class="testo"><span data-t="firma">Packages are signed and the key is already included in the install file. To check it yourself:</span> <a href="beviamolo.gpg">beviamolo.gpg</a></p>
+  </section>
+
+  <section aria-labelledby="account-h">
+    <h2 id="account-h" data-t="accountH">Your account</h2>
+    <p class="testo" data-t="accountP">You need a free Beviamolo account. Searching the wine catalogue is free; label recognition and food pairing use AI credits, and every account gets a free monthly allowance.</p>
+  </section>
+
+  <section aria-labelledby="altri-h">
+    <h2 id="altri-h" data-t="altriH">On your other devices</h2>
+    <div class="store">
+      <a class="store-link" href="https://play.google.com/store/apps/details?id=dev.lab897.beviamolo" target="_blank" rel="noopener noreferrer">
+        <span class="store-nome">Google Play</span><span class="store-piattaforma">Android ↗</span>
+      </a>
+      <a class="store-link" href="https://apps.microsoft.com/detail/9PDBQRNKF360" target="_blank" rel="noopener noreferrer">
+        <span class="store-nome">Microsoft Store</span><span class="store-piattaforma">Windows ↗</span>
+      </a>
+      <a class="store-link" href="https://snapcraft.io/beviamolo" target="_blank" rel="noopener noreferrer">
+        <span class="store-nome">Snap Store</span><span class="store-piattaforma">Linux ↗</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <img src="logo-light.svg" alt="Beviamolo" width="50" height="22">
+    <span class="meta"><a href="https://www.beviamolo.it/en/" data-home>www.beviamolo.it</a> · © 2026 Beviamolo</span>
+  </div>
+</footer>
+
+<script>
+  const TESTI = {
+    en: {
+      pagina: 'Beviamolo for Linux — Flatpak',
+      etichetta: 'Official Flatpak repository', versione: 'version',
+      titolo: 'Beviamolo for Linux',
+      lede: 'The app for your wine cellar: photograph the label and let the AI recognise the wine, keep every bottle in its place and find the right wine for your dish.',
+      installaH: 'Install with one click', installaBtn: 'Install Beviamolo',
+      installaNota: 'It opens in GNOME Software or KDE Discover. Updates then arrive like for your other apps.',
+      terminaleH: 'From the terminal', cmdInstalla: 'Install', cmdAvvia: 'Open', cmdAggiorna: 'Update',
+      copia: 'Copy', copiato: 'Copied',
+      runtime: 'The app uses the GNOME runtime, which Flatpak downloads from Flathub during the first installation.',
+      firma: 'Packages are signed and the key is already included in the install file. To check it yourself:',
+      accountH: 'Your account',
+      accountP: 'You need a free Beviamolo account. Searching the wine catalogue is free; label recognition and food pairing use AI credits, and every account gets a free monthly allowance.',
+      altriH: 'On your other devices',
+      home: 'https://www.beviamolo.it/en/',
+    },
+    it: {
+      pagina: 'Beviamolo per Linux — Flatpak',
+      etichetta: 'Repository Flatpak ufficiale', versione: 'versione',
+      titolo: 'Beviamolo per Linux',
+      lede: "L'app per la tua cantina: fotografa l'etichetta e lascia che l'AI riconosca il vino, tieni ogni bottiglia al suo posto e trova il vino giusto per il tuo piatto.",
+      installaH: 'Installa con un clic', installaBtn: 'Installa Beviamolo',
+      installaNota: 'Si apre in GNOME Software o KDE Discover. Poi gli aggiornamenti arrivano come per le altre app.',
+      terminaleH: 'Dal terminale', cmdInstalla: 'Installa', cmdAvvia: 'Apri', cmdAggiorna: 'Aggiorna',
+      copia: 'Copia', copiato: 'Copiato',
+      runtime: "L'app usa il runtime GNOME, che Flatpak scarica da Flathub alla prima installazione.",
+      firma: 'I pacchetti sono firmati e la chiave è già dentro il file di installazione. Per controllarla tu:',
+      accountH: 'Il tuo account',
+      accountP: 'Serve un account Beviamolo gratuito. La ricerca nel catalogo dei vini è gratuita; il riconoscimento delle etichette e gli abbinamenti usano i crediti AI, e ogni account ne riceve una quota gratuita ogni mese.',
+      altriH: 'Sugli altri dispositivi',
+      home: 'https://www.beviamolo.it/',
+    },
+    fr: {
+      pagina: 'Beviamolo pour Linux — Flatpak',
+      etichetta: 'Dépôt Flatpak officiel', versione: 'version',
+      titolo: 'Beviamolo pour Linux',
+      lede: "L'application pour votre cave : photographiez l'étiquette et laissez l'IA reconnaître le vin, gardez chaque bouteille à sa place et trouvez le bon vin pour votre plat.",
+      installaH: 'Installer en un clic', installaBtn: 'Installer Beviamolo',
+      installaNota: "S'ouvre dans GNOME Logiciels ou KDE Discover. Les mises à jour arrivent ensuite comme pour vos autres applications.",
+      terminaleH: 'Depuis le terminal', cmdInstalla: 'Installer', cmdAvvia: 'Ouvrir', cmdAggiorna: 'Mettre à jour',
+      copia: 'Copier', copiato: 'Copié',
+      runtime: "L'application utilise le runtime GNOME, que Flatpak télécharge depuis Flathub lors de la première installation.",
+      firma: "Les paquets sont signés et la clé est déjà incluse dans le fichier d'installation. Pour la vérifier vous-même :",
+      accountH: 'Votre compte',
+      accountP: "Un compte Beviamolo gratuit est nécessaire. La recherche dans le catalogue des vins est gratuite ; la reconnaissance des étiquettes et les accords mets-vins utilisent des crédits IA, et chaque compte en reçoit un quota gratuit chaque mois.",
+      altriH: 'Sur vos autres appareils',
+      home: 'https://www.beviamolo.it/fr/',
+    },
+    de: {
+      pagina: 'Beviamolo für Linux — Flatpak',
+      etichetta: 'Offizielles Flatpak-Repository', versione: 'Version',
+      titolo: 'Beviamolo für Linux',
+      lede: 'Die App für Ihren Weinkeller: Fotografieren Sie das Etikett und lassen Sie die KI den Wein erkennen, behalten Sie jede Flasche an ihrem Platz und finden Sie den passenden Wein zu Ihrem Gericht.',
+      installaH: 'Mit einem Klick installieren', installaBtn: 'Beviamolo installieren',
+      installaNota: 'Öffnet sich in GNOME Software oder KDE Discover. Updates kommen dann wie bei Ihren anderen Apps.',
+      terminaleH: 'Im Terminal', cmdInstalla: 'Installieren', cmdAvvia: 'Öffnen', cmdAggiorna: 'Aktualisieren',
+      copia: 'Kopieren', copiato: 'Kopiert',
+      runtime: 'Die App nutzt die GNOME-Laufzeitumgebung, die Flatpak bei der ersten Installation von Flathub lädt.',
+      firma: 'Die Pakete sind signiert, der Schlüssel steckt bereits in der Installationsdatei. Zum selbst Prüfen:',
+      accountH: 'Ihr Konto',
+      accountP: 'Sie brauchen ein kostenloses Beviamolo-Konto. Die Suche im Weinkatalog ist kostenlos; Etikettenerkennung und Speiseempfehlungen nutzen KI-Credits, und jedes Konto erhält jeden Monat ein kostenloses Kontingent.',
+      altriH: 'Auf Ihren anderen Geräten',
+      home: 'https://www.beviamolo.it/de/',
+    },
+    es: {
+      pagina: 'Beviamolo para Linux — Flatpak',
+      etichetta: 'Repositorio Flatpak oficial', versione: 'versión',
+      titolo: 'Beviamolo para Linux',
+      lede: 'La app para tu bodega: fotografía la etiqueta y deja que la IA reconozca el vino, guarda cada botella en su sitio y encuentra el vino adecuado para tu plato.',
+      installaH: 'Instala con un clic', installaBtn: 'Instalar Beviamolo',
+      installaNota: 'Se abre en GNOME Software o KDE Discover. Después las actualizaciones llegan como en tus otras apps.',
+      terminaleH: 'Desde el terminal', cmdInstalla: 'Instalar', cmdAvvia: 'Abrir', cmdAggiorna: 'Actualizar',
+      copia: 'Copiar', copiato: 'Copiado',
+      runtime: 'La app usa el runtime de GNOME, que Flatpak descarga de Flathub en la primera instalación.',
+      firma: 'Los paquetes están firmados y la clave ya va dentro del archivo de instalación. Para comprobarla tú:',
+      accountH: 'Tu cuenta',
+      accountP: 'Necesitas una cuenta gratuita de Beviamolo. La búsqueda en el catálogo de vinos es gratuita; el reconocimiento de etiquetas y los maridajes usan créditos de IA, y cada cuenta recibe una cuota gratuita cada mes.',
+      altriH: 'En tus otros dispositivos',
+      home: 'https://www.beviamolo.it/es/',
+    },
+    pt: {
+      pagina: 'Beviamolo para Linux — Flatpak',
+      etichetta: 'Repositório Flatpak oficial', versione: 'versão',
+      titolo: 'Beviamolo para Linux',
+      lede: 'A app para a sua adega: fotografe o rótulo e deixe a IA reconhecer o vinho, mantenha cada garrafa no seu lugar e encontre o vinho certo para o seu prato.',
+      installaH: 'Instale com um clique', installaBtn: 'Instalar o Beviamolo',
+      installaNota: 'Abre no GNOME Software ou no KDE Discover. Depois as atualizações chegam como nas outras apps.',
+      terminaleH: 'No terminal', cmdInstalla: 'Instalar', cmdAvvia: 'Abrir', cmdAggiorna: 'Atualizar',
+      copia: 'Copiar', copiato: 'Copiado',
+      runtime: 'A app usa o runtime do GNOME, que o Flatpak descarrega do Flathub na primeira instalação.',
+      firma: 'Os pacotes são assinados e a chave já vem no ficheiro de instalação. Para a verificar:',
+      accountH: 'A sua conta',
+      accountP: 'Precisa de uma conta Beviamolo gratuita. A pesquisa no catálogo de vinhos é gratuita; o reconhecimento de rótulos e as harmonizações usam créditos de IA, e cada conta recebe uma quota gratuita todos os meses.',
+      altriH: 'Nos seus outros dispositivos',
+      home: 'https://www.beviamolo.it/pt/',
+    },
+  };
+
+  const esiste = (l) => Object.prototype.hasOwnProperty.call(TESTI, l);
+  const scelta = (new URLSearchParams(location.search).get('lang') || '').toLowerCase();
+  const browser = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en'])
+    .map((l) => String(l || '').slice(0, 2).toLowerCase());
+  const lingua = esiste(scelta) ? scelta : (browser.find(esiste) || 'en');
+  const testi = TESTI[lingua];
+
+  document.documentElement.lang = lingua;
+  document.title = testi.pagina;
+  document.querySelectorAll('[data-t]').forEach((el) => {
+    const valore = testi[el.dataset.t];
+    if (typeof valore === 'string') el.textContent = valore;
+  });
+  document.querySelectorAll('[data-home]').forEach((el) => { el.href = testi.home; });
+  document.querySelectorAll('.lingua').forEach((el) => {
+    const attiva = el.getAttribute('hreflang') === lingua;
+    el.classList.toggle('attiva', attiva);
+    if (attiva) el.setAttribute('aria-current', 'page'); else el.removeAttribute('aria-current');
+  });
+
+  document.querySelectorAll('.copia').forEach((bottone) => {
+    bottone.addEventListener('click', async () => {
+      const codice = bottone.parentElement.querySelector('code');
+      try {
+        await navigator.clipboard.writeText(codice.textContent);
+        bottone.textContent = testi.copiato;
+        setTimeout(() => { bottone.textContent = testi.copia; }, 2000);
+      } catch {
+        // Appunti non disponibili: seleziona il comando per la copia a mano.
+        const intervallo = document.createRange();
+        intervallo.selectNodeContents(codice);
+        const selezione = window.getSelection();
+        selezione.removeAllRanges();
+        selezione.addRange(intervallo);
+      }
+    });
+  });
+</script>
+</body>
+</html>

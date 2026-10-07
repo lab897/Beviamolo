@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="40 10 320 142" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <title>Beviamolo — logo (light)</title>
+  <g stroke="#0A0907" stroke-width="5" fill="#332B22" transform="matrix(1, 0, 0, 1, 20, 0)">
+    <circle cx="60" cy="50" r="37"/>
+    <circle cx="140" cy="50" r="37"/>
+    <circle cx="220" cy="50" r="37"/>
+    <circle cx="300" cy="50" r="37"/>
+  </g>
+  <g stroke="none" transform="matrix(1, 0, 0, 1, 20, 0)">
+    <circle cx="60" cy="50" r="11" fill="#E8A93C"/>
+    <circle cx="140" cy="50" r="11" fill="#E11D48"/>
+    <circle cx="220" cy="50" r="11" fill="#E8A93C"/>
+    <circle cx="300" cy="50" r="11" fill="#E11D48"/>
+  </g>
+  <g stroke="#0A0907" stroke-width="5" stroke-linecap="round" fill="none" transform="matrix(1, 0, 0, 1, 20, 0)">
+    <path d="M 23 92 Q 60 117 97 92"/>
+    <path d="M 103 92 Q 140 117 177 92"/>
+    <path d="M 183 92 Q 220 117 257 92"/>
+    <path d="M 263 92 Q 300 117 337 92"/>
+  </g>
+  <text x="200" y="148" font-family="'Bricolage Grotesque', 'Geist', system-ui, sans-serif" font-weight="700" font-size="38" fill="#0A0907" text-anchor="middle" letter-spacing="1.5" style="white-space: pre;">BEVIAMOLO</text>
+</svg>

@@ -99,6 +99,8 @@ DefaultBranch=$RAMO
 GPGKey=$CHIAVE
 REPO
 
-sed -e "s|@VERSIONE@|$VER|g" -e "s|@URL_SITO@|$URL_SITO|g" "$QUI/index.html" > "$SITO/index.html"
+# Pagina (con font e loghi del sito): si sostituiscono versione e indirizzo
+cp -r "$QUI/pagina/." "$SITO/"
+sed -i -e "s|@VERSIONE@|$VER|g" -e "s|@URL_SITO@|$URL_SITO|g" "$SITO/index.html"
 
 echo "✓ Sito pronto in $SITO (Beviamolo $VER)"
