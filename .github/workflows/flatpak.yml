@@ -1,0 +1,61 @@
+# Pubblica il repository Flatpak su https://flatpak.beviamolo.it (GitHub Pages) a ogni release.
+# Prende il tarball della release, lo aggiunge al repo già pubblicato, firma e ripubblica.
+# Setup e procedura: PUBLISH_LINUX_FLATPAK.md nel monorepo.
+name: Repository Flatpak
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag della release da pubblicare (es. v1.0.40)'
+        required: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  repo:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-51
+      options: --privileged
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Strumenti
+        run: |
+          for c in ostree gpg curl; do command -v "$c" >/dev/null || NEED=1; done
+          if [ -n "${NEED:-}" ]; then dnf -y install ostree gnupg2 curl; fi
+
+      - name: Chiave di firma
+        env:
+          CHIAVE: ${{ secrets.FLATPAK_GPG_PRIVATE_KEY }}
+        run: |
+          echo "$CHIAVE" | base64 -d | gpg --batch --import
+          echo "GPG_KEY=$(gpg --list-secret-keys --with-colons | awk -F: '/^fpr/ {print $10; exit}')" >> "$GITHUB_ENV"
+
+      - name: Repo con la nuova versione
+        env:
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: |
+          ./flatpak/pubblica-repo.sh \
+            "https://github.com/${{ github.repository }}/releases/download/$TAG/beviamolo-linux-x64.tar.gz" \
+            sito
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: sito
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

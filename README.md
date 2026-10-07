@@ -15,7 +15,19 @@ the source code is not published here.
 |---|---|
 | Android | [Google Play](https://play.google.com/store/apps/details?id=dev.lab897.beviamolo) |
 | Windows | [Microsoft Store](https://apps.microsoft.com/detail/9PDBQRNKF360) |
-| Linux | [Snap Store](https://snapcraft.io/beviamolo) · or the archive in [Releases](https://github.com/lab897/Beviamolo/releases) |
+| Linux | [Flatpak](https://flatpak.beviamolo.it) · [Snap Store](https://snapcraft.io/beviamolo) · or the archive in [Releases](https://github.com/lab897/Beviamolo/releases) |
+
+## Flatpak
+
+The official Flatpak repository is <https://flatpak.beviamolo.it>, built from these releases and
+signed:
+
+```bash
+flatpak install --user https://flatpak.beviamolo.it/beviamolo.flatpakref
+```
+
+Or open the `.flatpakref` in GNOME Software or KDE Discover. Updates then arrive with the
+system's other Flatpak apps.
 
 ## Linux archive
 
@@ -30,7 +42,7 @@ tar -xzf beviamolo-linux-x64.tar.gz
 
 The archive needs glibc 2.38 or newer (for example Ubuntu 24.04, Debian 13, Fedora 39 or
 later), GTK 3 and libsecret, which desktop distributions usually include. On older systems use
-the Snap package.
+the Flatpak or the Snap package.
 
 ## Account and AI credits
 

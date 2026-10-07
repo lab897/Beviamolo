@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beviamolo for Linux (Flatpak)</title>
+<meta name="description" content="Install Beviamolo, the wine cellar manager, from the official Flatpak repository.">
+<link rel="icon" href="beviamolo.png">
+<style>
+  :root {
+    --cream: #F5F2EC; --paper: #FFFFFF; --ink: #1A1714; --ink-soft: #5C554C; --bordeaux: #BE123C;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --cream: #100F0C; --paper: #28231D; --ink: #F5F2EC; --ink-soft: #B8B0A4; --bordeaux: #FF3D6E; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--cream); color: var(--ink);
+    font: 17px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 48px 16px 64px; }
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+  header img { width: 72px; height: 72px; border-radius: 16px; }
+  h1 { font-size: 30px; line-height: 1.15; margin: 0; }
+  h2 { font-size: 20px; margin: 36px 0 8px; }
+  p { margin: 0 0 12px; }
+  .sub { color: var(--ink-soft); margin: 4px 0 0; }
+  .btn {
+    display: inline-block; background: var(--ink); color: var(--cream); text-decoration: none;
+    font-weight: 600; padding: 12px 22px; border-radius: 999px; margin: 8px 0 4px;
+  }
+  .card { background: var(--paper); border-radius: 20px; padding: 18px 20px; margin: 12px 0; }
+  pre { margin: 6px 0 0; overflow-x: auto; }
+  code { font: 14px/1.5 ui-monospace, "JetBrains Mono", monospace; }
+  a { color: var(--bordeaux); }
+  footer { margin-top: 48px; color: var(--ink-soft); font-size: 15px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="beviamolo.png" alt="">
+    <div>
+      <h1>Beviamolo for Linux</h1>
+      <p class="sub">Official Flatpak repository · version @VERSIONE@</p>
+    </div>
+  </header>
+
+  <p>Your wine cellar manager: photograph the label and the AI recognises the wine, keep every
+  bottle in its place in your cellar and find the right wine for your dish.</p>
+
+  <a class="btn" href="beviamolo.flatpakref">Install Beviamolo</a>
+  <p class="sub">Opens in GNOME Software or KDE Discover. Updates then arrive like any other app.</p>
+
+  <h2>From the terminal</h2>
+  <div class="card">
+    <p>Install:</p>
+    <pre><code>flatpak install --user @URL_SITO@/beviamolo.flatpakref</code></pre>
+  </div>
+  <div class="card">
+    <p>Run and update:</p>
+    <pre><code>flatpak run dev.lab897.beviamolo
+flatpak update</code></pre>
+  </div>
+  <p>The app uses the GNOME runtime, which Flatpak downloads from Flathub on first install.
+  Packages are signed: the public key is <a href="beviamolo.gpg">beviamolo.gpg</a>, already
+  included in the install files.</p>
+
+  <h2>Account</h2>
+  <p>A free Beviamolo account is required. Searching the wine catalogue is free; label
+  recognition and food pairing use AI credits, with a free monthly allowance included. No ads.</p>
+
+  <footer>
+    <a href="https://www.beviamolo.it/">beviamolo.it</a> ·
+    <a href="https://www.beviamolo.it/#download">Android, Windows and Snap</a>
+  </footer>
+</main>
+</body>
+</html>

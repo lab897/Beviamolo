@@ -5,9 +5,10 @@ Beviamolo is proprietary software. It is free to download and use, subject to
 the Terms of Service shown in the application (Settings -> Info, Terms &
 Contacts).
 
-Permission is granted to Flathub (https://flathub.org) and to the users of its
-repositories to download, install and redistribute this software through
-Flatpak repositories, in unmodified form only.
+Permission is granted to download, install and redistribute this software
+through the official Beviamolo Flatpak repository (https://flatpak.beviamolo.it),
+the Beviamolo releases on GitHub (https://github.com/lab897/Beviamolo) and
+Flatpak repositories that mirror them, in unmodified form only.
 
 Modifying, decompiling or distributing modified copies of this software is not
 permitted without prior written permission from lab897.

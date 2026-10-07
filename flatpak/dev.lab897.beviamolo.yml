@@ -1,0 +1,47 @@
+# Manifest del repository Flatpak di Beviamolo (https://flatpak.beviamolo.it).
+#
+# Lo usa pubblica-repo.sh, lanciato dal workflow flatpak.yml a ogni release: url e sha256
+# li riscrive lo script col tarball della release, quelli qui sotto sono dell'ultima
+# pubblicata. Per le prove locali con la build di Flutter: flatpak/build.sh nel monorepo.
+app-id: dev.lab897.beviamolo
+runtime: org.gnome.Platform
+runtime-version: '51'
+sdk: org.gnome.Sdk
+command: beviamolo
+
+finish-args:
+  # Rete: API backend.beviamolo.it e immagini su cdn.beviamolo.it
+  - --share=network
+  # Grafica: Wayland, X11 come ripiego, accelerazione
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  # Portachiavi di sistema: flutter_secure_storage (token di accesso)
+  - --talk-name=org.freedesktop.secrets
+  # NetworkManager: connectivity_plus
+  - --system-talk-name=org.freedesktop.NetworkManager
+  # Niente accesso alla home: file e link passano dai portali
+
+modules:
+  - name: beviamolo
+    buildsystem: simple
+    # Bundle già compilato: niente estensione .Debug da pubblicare
+    build-options:
+      no-debuginfo: true
+    build-commands:
+      # Bundle Flutter con la sua struttura (RPATH relativo)
+      - cp -r bundle/. /app/bin/
+      - chmod +x /app/bin/beviamolo
+      - install -Dm644 dev.lab897.beviamolo.desktop
+          /app/share/applications/dev.lab897.beviamolo.desktop
+      - install -Dm644 dev.lab897.beviamolo.png
+          /app/share/icons/hicolor/512x512/apps/dev.lab897.beviamolo.png
+      - install -Dm644 dev.lab897.beviamolo.metainfo.xml
+          /app/share/metainfo/dev.lab897.beviamolo.metainfo.xml
+      - install -Dm644 LICENSE /app/share/licenses/dev.lab897.beviamolo/LICENSE
+    sources:
+      # Tarball della release su github.com/lab897/Beviamolo (job build-linux-bundle)
+      - type: archive
+        url: https://github.com/lab897/Beviamolo/releases/download/v1.0.40/beviamolo-linux-x64.tar.gz
+        sha256: 3d9f66fe085fbf9f47278c5f3fbda61f32bea9f4678b4437160132cbf2f42e39
