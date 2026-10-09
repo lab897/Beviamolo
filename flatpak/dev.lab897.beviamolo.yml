@@ -43,5 +43,5 @@ modules:
     sources:
       # Tarball della release su github.com/lab897/Beviamolo (job build-linux-bundle)
       - type: archive
-        url: https://github.com/lab897/Beviamolo/releases/download/v1.0.40/beviamolo-linux-x64.tar.gz
-        sha256: 3d9f66fe085fbf9f47278c5f3fbda61f32bea9f4678b4437160132cbf2f42e39
+        url: https://github.com/lab897/Beviamolo/releases/download/v1.0.41/beviamolo-linux-x64.tar.gz
+        sha256: 40f98b149ffd449ebccdbe3298e2d9bea9dc77ea24dfc03daac907da73c8116b

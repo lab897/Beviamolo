@@ -22,7 +22,25 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Una release fa partire il workflow sul suo tag, ma un deploy di GitHub Pages fatto da un
+  # tag risulta riuscito senza andare online (successo con la v1.0.41 il 2026-10-09): da
+  # `main` invece funziona. Quindi alla release si rilancia lo stesso workflow su `main` col
+  # tag come input, e la pubblicazione vera la fa quel giro. Il token del workflow può
+  # avviare workflow_dispatch (è una delle due eccezioni al «niente workflow da GITHUB_TOKEN»).
+  rimanda-a-main:
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Rilancia su main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh workflow run flatpak.yml --repo "$GITHUB_REPOSITORY" --ref main -f tag="$TAG"
+
   repo:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-51
@@ -47,7 +65,7 @@ jobs:
 
       - name: Repo con la nuova versione
         env:
-          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+          TAG: ${{ inputs.tag }}
         run: |
           ./flatpak/pubblica-repo.sh \
             "https://github.com/${{ github.repository }}/releases/download/$TAG/beviamolo-linux-x64.tar.gz" \
